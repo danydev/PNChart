@@ -89,7 +89,7 @@
 
         while (num > 0)
         {
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight - index * yStepHeight), (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, (NSInteger)(_chartCavanHeight - index * yStepHeight) + _chartMargin, (NSInteger)_chartMargin, (NSInteger)_yLabelHeight)];
             [label setTextAlignment:NSTextAlignmentRight];
             label.text = [NSString stringWithFormat:yLabelFormat, _yValueMin + (yStep * index)];
             [self setCustomStyleForYLabel:label];
@@ -132,7 +132,7 @@
         for (int index = 0; index < xLabels.count; index++) {
             labelText = xLabels[index];
 
-            NSInteger x = 2 * _chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2);
+            NSInteger x = _chartMargin +  (index * _xLabelWidth) - (_xLabelWidth / 2);
             NSInteger y = _chartMargin + _chartCavanHeight;
 
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger)_xLabelWidth, (NSInteger)_chartMargin)];
@@ -337,8 +337,8 @@
             
             CGFloat offSetX = (_chartCavanWidth) / (chartData.itemCount);
             
-            int x = 2 * _chartMargin +  (i * offSetX);
-            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2);
+            int x = _chartMargin +  (i * offSetX);
+            int y = _chartCavanHeight - (innerGrade * _chartCavanHeight) + (_yLabelHeight / 2) + _chartMargin;
             
             // Circular point
             if (chartData.inflexionPointStyle == PNLineChartPointStyleCircle) {
@@ -573,7 +573,7 @@
 {
     if (self.isShowCoordinateAxis) {
 
-        CGFloat yAxisOffset = 10.f;
+        CGFloat yAxisOffset = 0.f;
 
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         UIGraphicsPushContext(ctx);
@@ -606,7 +606,7 @@
             // draw x axis separator
             CGPoint point;
             for (NSUInteger i = 0; i < [self.xLabels count]; i++) {
-                point = CGPointMake(2 * _chartMargin +  (i * _xLabelWidth), _chartMargin + _chartCavanHeight);
+                point = CGPointMake(_chartMargin +  (i * _xLabelWidth), _chartMargin + _chartCavanHeight);
                 CGContextMoveToPoint(ctx, point.x, point.y - 2);
                 CGContextAddLineToPoint(ctx, point.x, point.y);
                 CGContextStrokePath(ctx);
